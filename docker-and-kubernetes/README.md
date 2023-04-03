@@ -32,3 +32,27 @@ ADD . /usr/share/nginx/html
 Then, build an image with
 
 ´docker build --tag website:latest .´
+
+## Executing Commands: RUN vs CMD
+
+There are two commands that allow you to execute code inside the container. ´RUN´ and ´CMD´, with the difference being:
+
+> RUN is an image build step, the state of the container after a RUN command will be committed to the container image. A Dockerfile can have many RUN steps that layer on top of one another to build the image.
+>
+> CMD is the command the container executes by default when you launch the built image. A Dockerfile will only use the final CMD defined. The CMD can be overridden when starting a container with docker run $image $other_command.
+
+(https://stackoverflow.com/a/37462208/1934396)
+
+## .dockerignore
+
+Similar to ´.gitignore´, a ´.dockerignore´ file should be created to exclude certain files and directories from an image. In a node project, for example, a ´.dockerignore´ file might look like this:
+
+´´´
+node_modules/
+.git/
+
+.dockerignore
+Dockerfile
+´´´
+
+Note that the ´Dockerfile´ will be copied to the image itself on the ´ADD´ command if it sits in the same folder as the content that is supposed to be added, so it can/should be ignored here.
