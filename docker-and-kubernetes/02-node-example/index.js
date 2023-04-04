@@ -8,6 +8,14 @@ app.get("/", (req, res) => {
       name: "Bob",
       email: "bob@byom.de",
     },
+    {
+      name: "Alice",
+      email: "alice@byom.de",
+    },
+    {
+      name: "Jack",
+      email: "jack@byom.de",
+    },
   ]);
 });
 

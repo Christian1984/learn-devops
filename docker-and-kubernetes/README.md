@@ -56,3 +56,39 @@ Dockerfile
 ´´´
 
 Note that the ´Dockerfile´ will be copied to the image itself on the ´ADD´ command if it sits in the same folder as the content that is supposed to be added, so it can/should be ignored here.
+
+## Execution Order, Caching and Layers
+
+If you copy the `package.json` and `yarn.lock` files before copying the actual source code, docker can use layer caching mechanisms so that it does nor have to run `yarn install` over and over again.
+
+## Alpine
+
+For most images, there is an Alpine-Version available in the official docker registry/hub. Alpine is a lightweight linux distro that focuses on security and a minimal footprint. Images based on Alpine can be 10x smaller than the respective non-Alpine images, so make sure to reference those images in your own Dockerfiles
+
+## Versioning and Tagging
+
+When building an Image for production, make sure to specify a precise, versioned tag for the source image in the ´FROM´ line. Otherwise builds will be non-deterministic and images may break in the future when they are rebuild at a later point in time. For example, use
+
+´FROM node:18.15.0-alpine3.16´
+
+instead of
+
+´FROM node:latest´
+
+When tagging your own images, first create a version-tagged image like so
+
+´docker built -t website:1 .´
+
+and then create the latest tag from it by calling
+
+´docker tag website:1 website:latest´
+
+## Debugging
+
+Inspect a container config with
+
+´docker inspect <container_name|container_id>´
+
+Monitor a container's logs with
+
+´docker logs <container_name|container_id>´
