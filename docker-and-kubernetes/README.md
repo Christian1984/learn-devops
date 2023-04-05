@@ -92,3 +92,90 @@ Inspect a container config with
 Monitor a container's logs with
 
 ´docker logs <container_name|container_id>´
+
+# Kubernetes
+
+At its core, Kubernetes uses **Pods** as an abstraction over individual containers.
+
+Pods run as **Services** and services can communicate with each other via TCP/IP.
+
+An **Ingress** exposes a service to the public.
+
+**Deployments** and **Stateful Sets** are abstractions over Services, that allow for spreading an application over multiple **Nodes** (i.e. machines).
+
+Data is stored in **Storages**. A cluster is configured via a **ConfigMap** and secrets are stored in a **Secrets** component.
+
+## Testing Locally
+
+**minikube** is a tool that allows developers to test kubernetes deployments locally. It creates a 1-node-Kubernetes-Cluster inside a VirtualBox on a local machine.
+
+**kubectl**, on the other hand, is a CLI tool for managing Kubernetes clusters.
+
+Install minikube with `brew install minikube`. Then run it with `minikube start`. This will use docker as default driver. An alternative is hyperkit which can also be installed via brew and then be activated with `minikube start --vm-driver=hyperkit`.
+
+Use `kubectl get nodes` to see the status of the cluster nodes. Use `minikube status` to see the status of the minikube cluster.
+
+## Setting up the Cluster
+
+`kubectl create` is there to create Kubernetes entities. However, Pods are not created "manually" but via the abstraction layer of a **Deployment**.
+
+An nginx deployment from an nginx docker image, for example, can be created with
+
+`kubectl create deployment nginx-depl --image=nginx`
+
+To stop/delete the deployment run `kubectl delete deployment <deployment-name>` (get name via `kubectl get deployment`).
+
+## Debugging
+
+Use `kubectl get <pod|deployment|replicaset>` to list all entities of a given type.
+
+`kubectl logs <pod-name>` will print out the logs for the selected pod.
+
+Use `kubectl describe <pod|deployment|replicaset> <name>` to get details about a given entity.
+
+Get an interactive shell of a pod with `kubectl exec -it <pod-name> -- bin/bash`.
+
+## Applying Config Files
+
+`kubectl apply -f <configfile.yml>` takes a configuration file and applies it to the cluster.
+
+`kubectl delete -f <configfile.yml>` deletes the deployment created with `<configfile.yml>`.
+
+## Example Application
+
+An examplatory application could consist of a mongodb and mongo express, with mongodb running as an internal service and mongo express being the only component exposed.
+
+This setup will consist of:
+
+- MongoDB pod as internal service
+- Mongo Express pod as external service
+- a config map
+- a secret
+
+### Secret
+
+Values in a Kubernetes secret must be base64 encoded. This can easily be done in the terminal by typing
+
+`echo -n 'username' | base64`
+
+First create and `kubectl apply` the secret, then reference it from the deployment file with the `valueFrom`-field.
+
+### Expose a Service with Minikube
+
+At the end, after creating the external service and assigning it a `nodePort` (range 30000...32767), expose the service with
+
+`minikube service <service-name>`
+
+This will expose the service and open a browser window navigating to the proper url.
+
+## Spinning it All up at Once
+
+Use
+
+`kubectl apply -f .`
+
+and
+
+`kubectl delete -f .`
+
+respectively to spin up/stop the entire configuration at once.
