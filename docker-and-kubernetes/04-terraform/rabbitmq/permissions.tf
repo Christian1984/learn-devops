@@ -7,7 +7,6 @@ locals {
     }
     spec = {
       vhost = "/"
-      user  = "producer"
       permissions = {
         read      = ".*"
         write     = ".*"

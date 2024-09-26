@@ -24,7 +24,7 @@ https://kubernetes.io/docs/concepts/storage/storage-classes/#azure-file
 Switched to context "msf-dev-aks-cluster".
 ➜  rabbitmq git:(master) ✗ k get storageclasses
 NAME                     PROVISIONER          RECLAIMPOLICY   VOLUMEBINDINGMODE      ALLOWVOLUMEEXPANSION   AGE
-akus-rwm-storage-class   file.csi.azure.com   Delete          Immediate              true                   64d
+akus-rwm-storage-class   file.csi.azure.com   Delete          Immediate              true                   64d <- generates ...-pvs object
 azurefile                file.csi.azure.com   Delete          Immediate              true                   285d
 azurefile-csi            file.csi.azure.com   Delete          Immediate              true                   285d
 azurefile-csi-premium    file.csi.azure.com   Delete          Immediate              true                   285d
@@ -44,3 +44,7 @@ managed-premium          disk.csi.azure.com   Delete          WaitForFirstConsum
 
 - prometheus?
 - application insights?
+
+## node affinity
+
+?
