@@ -1,10 +1,9 @@
 locals {
-  # depends_on = [ helm_release.rabbitmq-cluster-operator ]
   rabbitmq_users_common = {
     apiVersion = "rabbitmq.com/v1beta1"
     kind       = "User"
     metadata = {
-      namespace = "default"
+      namespace = kubernetes_namespace.rabbitmq_namespace.metadata[0].name
     }
     spec = {
       rabbitmqClusterReference = {
@@ -15,67 +14,33 @@ locals {
 }
 
 resource "kubernetes_manifest" "rabbitmq_user_producer" {
+  # defining the dependency ensures that the messaging topology operator 
+  # takes care of removing the users before being removed itself
+  depends_on = [helm_release.rabbitmq-cluster-operator]
   manifest = merge(local.rabbitmq_users_common, {
     metadata = merge(local.rabbitmq_users_common.metadata, {
-      name = "myrabbit-user-producer"
+      name = "rabbitmq-user-producer"
     })
     spec = merge(local.rabbitmq_users_common.spec, {
       importCredentialsSecret = {
-        name = "myrabbit-secret-user-prod"
+        name = "rabbitmq-secret-user-producer"
       }
     })
   })
 }
 
 resource "kubernetes_manifest" "rabbitmq_user_consumer" {
+  # defining the dependency ensures that the messaging topology operator 
+  # takes care of removing the users before being removed itself
+  depends_on = [helm_release.rabbitmq-cluster-operator]
   manifest = merge(local.rabbitmq_users_common, {
     metadata = merge(local.rabbitmq_users_common.metadata, {
-      name = "myrabbit-user-consumer"
+      name = "rabbitmq-user-consumer"
     })
     spec = merge(local.rabbitmq_users_common.spec, {
       importCredentialsSecret = {
-        name = "myrabbit-secret-user-consumer"
+        name = "rabbitmq-secret-user-consumer"
       }
     })
   })
 }
-
-# resource "kubernetes_manifest" "rabbitmq_user_producer" {
-#   # depends_on = [ helm_release.rabbitmq-cluster-operator ]
-#   manifest = {
-#     apiVersion = "rabbitmq.com/v1beta1"
-#     kind       = "User"
-#     metadata = {
-#       name      = "myrabbit-user-producer"
-#       namespace = "default"
-#     }
-#     spec = {
-#       rabbitmqClusterReference = {
-#         name = var.rabbitmq_instance_name
-#       }
-#       importCredentialsSecret = {
-#         name = "myrabbit-secret-user-prod"
-#       }
-#     }
-#   }
-# }
-
-# resource "kubernetes_manifest" "rabbitmq_user_consumer" {
-#   # depends_on = [ helm_release.rabbitmq-cluster-operator ]
-#   manifest = {
-#     apiVersion = "rabbitmq.com/v1beta1"
-#     kind       = "User"
-#     metadata = {
-#       name      = "myrabbit-user-consumer"
-#       namespace = "default"
-#     }
-#     spec = {
-#       rabbitmqClusterReference = {
-#         name = var.rabbitmq_instance_name
-#       }
-#       importCredentialsSecret = {
-#         name = "myrabbit-secret-user-cons"
-#       }
-#     }
-#   }
-# }

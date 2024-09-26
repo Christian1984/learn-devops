@@ -1,28 +1,36 @@
+locals {
+  user_producer_data = {
+    username = "producer"
+    password = "prod-pw"
+  }
+
+  user_consumer_data = {
+    username = "consumer"
+    password = "cons-pw"
+  }
+}
+
 data "kubernetes_secret" "rabbitmq_default_user" {
   metadata {
-    name      = "myrabbit-default-user"
-    namespace = "default"
+    name      = "rabbitmq-default-user"
+    namespace = kubernetes_namespace.rabbitmq_namespace.metadata[0].name
   }
 }
 
 resource "kubernetes_secret" "rabbitmq_secret_user_producer" {
   metadata {
-    name = "myrabbit-secret-user-prod"
+    name      = "rabbitmq-secret-user-producer"
+    namespace = kubernetes_namespace.rabbitmq_namespace.metadata[0].name
   }
 
-  data = {
-    username = "producer"
-    password = "prod-pw"
-  }
+  data = local.user_producer_data
 }
 
 resource "kubernetes_secret" "rabbitmq_secret_user_consumer" {
   metadata {
-    name = "myrabbit-secret-user-cons"
+    name      = "rabbitmq-secret-user-consumer"
+    namespace = kubernetes_namespace.rabbitmq_namespace.metadata[0].name
   }
 
-  data = {
-    username = "consumer"
-    password = "cons-pw"
-  }
+  data = local.user_consumer_data
 }

@@ -3,7 +3,7 @@ locals {
     apiVersion = "rabbitmq.com/v1beta1"
     kind       = "Permission"
     metadata = {
-      namespace = "default"
+      namespace = kubernetes_namespace.rabbitmq_namespace.metadata[0].name
     }
     spec = {
       vhost = "/"
@@ -22,7 +22,7 @@ locals {
 resource "kubernetes_manifest" "rabbitmq_user_permissions_producer" {
   manifest = merge(local.rabbitmq_permission_common, {
     metadata = merge(local.rabbitmq_permission_common.metadata, {
-      name = "myrabbit-user-permissions-producer"
+      name = "rabbitmq-user-permissions-producer"
     })
     spec = merge(local.rabbitmq_permission_common.spec, {
       user = "producer"
@@ -33,7 +33,7 @@ resource "kubernetes_manifest" "rabbitmq_user_permissions_producer" {
 resource "kubernetes_manifest" "rabbitmq_user_permissions_consumer" {
   manifest = merge(local.rabbitmq_permission_common, {
     metadata = merge(local.rabbitmq_permission_common.metadata, {
-      name = "myrabbit-user-permissions-consumer"
+      name = "rabbitmq-user-permissions-consumer"
     })
     spec = merge(local.rabbitmq_permission_common.spec, {
       user = "consumer"
@@ -46,8 +46,8 @@ resource "kubernetes_manifest" "rabbitmq_user_permissions_consumer" {
 #     apiVersion = "rabbitmq.com/v1beta1"
 #     kind       = "Permission"
 #     metadata = {
-#       name      = "myrabbit-user-permissions-producer"
-#       namespace = "default"
+#       name      = "rabbitmq-user-permissions-producer"
+#       namespace = kubernetes_namespace.rabbitmq_namespace.metadata[0].name
 #     }
 #     spec = {
 #       vhost = "/"
@@ -69,8 +69,8 @@ resource "kubernetes_manifest" "rabbitmq_user_permissions_consumer" {
 #     apiVersion = "rabbitmq.com/v1beta1"
 #     kind       = "Permission"
 #     metadata = {
-#       name      = "myrabbit-user-permissions-consumer"
-#       namespace = "default"
+#       name      = "rabbitmq-user-permissions-consumer"
+#       namespace = kubernetes_namespace.rabbitmq_namespace.metadata[0].name
 #     }
 #     spec = {
 #       vhost = "/"
