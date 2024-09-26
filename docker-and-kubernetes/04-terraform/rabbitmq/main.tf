@@ -28,6 +28,28 @@ resource "kubernetes_manifest" "rabbitmq_cluster" {
     spec = {
       image    = "rabbitmq:4.0.2-management"
       replicas = 3
+
+      # Resource limits and requests for RabbitMQ instances
+      # "resources" = {
+      #   "requests" = {
+      #     "cpu"    = "500m"
+      #     "memory" = "1Gi"
+      #   }
+      #   "limits" = {
+      #     "cpu"    = "1"
+      #     "memory" = "2Gi"
+      #   }
+      # }
+
+      # Optional: Storage configuration for RabbitMQ
+      # "storage" = {
+      #   "storageClassName" = "standard"
+      #   "resources" = {
+      #     "requests" = {
+      #       "storage" = "10Gi"
+      #     }
+      #   }
+      # }
     }
   }
 }
