@@ -8,7 +8,7 @@ locals {
     }
     spec = {
       rabbitmqClusterReference = {
-        name = "myrabbit"
+        name = var.rabbitmq_instance_name
       }
     }
   }
@@ -51,7 +51,7 @@ resource "kubernetes_manifest" "rabbitmq_user_consumer" {
 #     }
 #     spec = {
 #       rabbitmqClusterReference = {
-#         name = "myrabbit"
+#         name = var.rabbitmq_instance_name
 #       }
 #       importCredentialsSecret = {
 #         name = "myrabbit-secret-user-prod"
@@ -71,7 +71,7 @@ resource "kubernetes_manifest" "rabbitmq_user_consumer" {
 #     }
 #     spec = {
 #       rabbitmqClusterReference = {
-#         name = "myrabbit"
+#         name = var.rabbitmq_instance_name
 #       }
 #       importCredentialsSecret = {
 #         name = "myrabbit-secret-user-cons"

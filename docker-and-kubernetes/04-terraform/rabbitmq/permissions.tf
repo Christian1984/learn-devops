@@ -14,7 +14,7 @@ locals {
         configure = ".*"
       }
       rabbitmqClusterReference = {
-        name = "myrabbit"
+        name = var.rabbitmq_instance_name
       }
     }
   }
@@ -59,7 +59,7 @@ resource "kubernetes_manifest" "rabbitmq_user_permissions_consumer" {
 #         configure = ".*"
 #       }
 #       rabbitmqClusterReference = {
-#         name = "myrabbit"
+#         name = var.rabbitmq_instance_name
 #       }
 #     }
 #   })
@@ -82,7 +82,7 @@ resource "kubernetes_manifest" "rabbitmq_user_permissions_consumer" {
 #         configure = ".*"
 #       }
 #       rabbitmqClusterReference = {
-#         name = "myrabbit"
+#         name = var.rabbitmq_instance_name
 #       }
 #     }
 #   }
