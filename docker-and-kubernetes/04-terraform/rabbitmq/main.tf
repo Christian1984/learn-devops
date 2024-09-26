@@ -5,6 +5,12 @@ resource "kubernetes_namespace" "rabbitmq_namespace" {
   }
 }
 
+resource "kubernetes_namespace" "app_namespace" {
+  metadata {
+    name = var.app_namespace
+  }
+}
+
 resource "helm_release" "rabbitmq-cluster-operator" {
   name      = "rabbitmq-cluster-operator"
   namespace = kubernetes_namespace.rabbitmq_namespace.metadata[0].name

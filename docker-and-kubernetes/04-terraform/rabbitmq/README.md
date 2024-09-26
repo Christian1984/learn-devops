@@ -22,6 +22,11 @@ helm uninstall rabbitmq-cluster-operator
 - use the image in the terraform script without a registry prefix
 - set `imagePullPolicy = "Never"`
 
+## startup
+
+- run `tf init && tf apply`
+- the messaging topology operator takes a while to provision the users and their permissions, so be patient; it can take several minutes!
+
 ## manage
 
 - use `kr -n <namespace> manage <instance>`, e.g. `kr -n rabbitns manage rabbit`

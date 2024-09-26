@@ -18,7 +18,7 @@ resource "kubernetes_manifest" "mq-demo-sender" {
     kind       = "Deployment"
     metadata = {
       name      = "mq-demo-sender"
-      namespace = kubernetes_namespace.rabbitmq_namespace.metadata[0].name
+      namespace = kubernetes_namespace.app_namespace.metadata[0].name
     }
     spec = {
       replicas = 1
@@ -49,7 +49,7 @@ resource "kubernetes_manifest" "mq-demo-sender" {
                   valueFrom = {
                     secretKeyRef = {
                       # name = data.kubernetes_secret.rabbitmq_default_user.metadata[0].name
-                      name = "rabbitmq-secret-user-producer"
+                      name = "app-secret-user-producer"
                       key  = "username"
                     }
                   }
@@ -60,7 +60,7 @@ resource "kubernetes_manifest" "mq-demo-sender" {
                   valueFrom = {
                     secretKeyRef = {
                       # name = data.kubernetes_secret.rabbitmq_default_user.metadata[0].name
-                      name = "rabbitmq-secret-user-producer"
+                      name = "app-secret-user-producer"
                       key  = "password"
                     }
                   }
@@ -80,7 +80,7 @@ resource "kubernetes_manifest" "mq-demo-receiver" {
     kind       = "Deployment"
     metadata = {
       name      = "mq-demo-receiver"
-      namespace = kubernetes_namespace.rabbitmq_namespace.metadata[0].name
+      namespace = kubernetes_namespace.app_namespace.metadata[0].name
     }
     spec = {
       replicas = 1
@@ -111,7 +111,7 @@ resource "kubernetes_manifest" "mq-demo-receiver" {
                   valueFrom = {
                     secretKeyRef = {
                       # name = data.kubernetes_secret.rabbitmq_default_user.metadata[0].name
-                      name = "rabbitmq-secret-user-consumer"
+                      name = "app-secret-user-consumer"
                       key  = "username"
                     }
                   }
@@ -121,7 +121,7 @@ resource "kubernetes_manifest" "mq-demo-receiver" {
                   valueFrom = {
                     secretKeyRef = {
                       # name = data.kubernetes_secret.rabbitmq_default_user.metadata[0].name
-                      name = "rabbitmq-secret-user-consumer"
+                      name = "app-secret-user-consumer"
                       key  = "password"
                     }
                   }

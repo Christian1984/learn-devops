@@ -34,3 +34,21 @@ resource "kubernetes_secret" "rabbitmq_secret_user_consumer" {
 
   data = local.user_consumer_data
 }
+
+resource "kubernetes_secret" "app_secret_user_producer" {
+  metadata {
+    name      = "app-secret-user-producer"
+    namespace = kubernetes_namespace.app_namespace.metadata[0].name
+  }
+
+  data = local.user_producer_data
+}
+
+resource "kubernetes_secret" "app_secret_user_consumer" {
+  metadata {
+    name      = "app-secret-user-consumer"
+    namespace = kubernetes_namespace.app_namespace.metadata[0].name
+  }
+
+  data = local.user_consumer_data
+}

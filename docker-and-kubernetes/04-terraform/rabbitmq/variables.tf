@@ -9,3 +9,9 @@ variable "rabbitmq_namespace" {
   type        = string
   default     = "rabbitns"
 }
+
+variable "app_namespace" {
+  description = "The namespace for the applications"
+  type        = string
+  default     = "app"
+}
