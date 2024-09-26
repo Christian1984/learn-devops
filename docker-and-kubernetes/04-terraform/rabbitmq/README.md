@@ -9,6 +9,8 @@ run `minikube stop && minikube delete && minikube start`. after that, do not for
 
 ## add crds
 
+it seems that there is no idiomatic terraform-way to initially get the CRDs. the best i could come up with is to run
+
 ```
 helm repo add bitnami https://charts.bitnami.com/bitnami
 helm install rabbitmq-cluster-operator bitnami/rabbitmq-cluster-operator
@@ -18,7 +20,7 @@ helm uninstall rabbitmq-cluster-operator
 ## use local docker images with minikube:
 
 - run `eval $(minikube docker-env)` to switch to the minikube docker environment.
-- build image, e.g. `docker build . -t myimage:latest
+- build image, e.g. `docker build . -t myimage:latest`
 - use the image in the terraform script without a registry prefix
 - set `imagePullPolicy = "Never"`
 
@@ -48,8 +50,8 @@ users and permissions can be created through the messaging-topology-operator. th
 https://kubernetes.io/docs/concepts/storage/storage-classes/#azure-file
 
 ```
-➜  rabbitmq git:(master) ✗ kubectl config use-context msf-dev-aks-cluster
-Switched to context "msf-dev-aks-cluster".
+➜  rabbitmq git:(master) ✗ kubectl config use-context <cluster>
+Switched to context "<cluster>".
 ➜  rabbitmq git:(master) ✗ k get storageclasses
 NAME                     PROVISIONER          RECLAIMPOLICY   VOLUMEBINDINGMODE      ALLOWVOLUMEEXPANSION   AGE
 akus-rwm-storage-class   file.csi.azure.com   Delete          Immediate              true                   64d <- generates ...-pvs object
