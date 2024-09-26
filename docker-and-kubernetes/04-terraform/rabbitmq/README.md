@@ -1,6 +1,6 @@
-# learned:
+# learned so far:
 
-# clear minikube
+## clear minikube
 
 run `minikube stop && minikube delete && minikube start`. after that, do not forget to
 
@@ -37,9 +37,9 @@ https://www.rabbitmq.com/kubernetes/operator/using-topology-operator#users-permi
 
 users and permissions can be created through the messaging-topology-operator. therefore, we need to create a secret per user and then User and Permission kubenetes resources.
 
-# research:
+# still to research:
 
-# different namespaces for apps and rabbitmq
+## different namespaces for apps and rabbitmq
 
 ?
 
