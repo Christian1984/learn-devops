@@ -3,7 +3,7 @@ locals {
     apiVersion = "rabbitmq.com/v1beta1"
     kind       = "Permission"
     metadata = {
-      namespace = kubernetes_namespace.rabbitmq_namespace.metadata[0].name
+      namespace = var.rabbitmq_namespace
     }
     spec = {
       vhost = "/"
@@ -47,7 +47,7 @@ resource "kubernetes_manifest" "rabbitmq_user_permissions_consumer" {
 #     kind       = "Permission"
 #     metadata = {
 #       name      = "rabbitmq-user-permissions-producer"
-#       namespace = kubernetes_namespace.rabbitmq_namespace.metadata[0].name
+#       namespace = var.rabbitmq_namespace
 #     }
 #     spec = {
 #       vhost = "/"
@@ -70,7 +70,7 @@ resource "kubernetes_manifest" "rabbitmq_user_permissions_consumer" {
 #     kind       = "Permission"
 #     metadata = {
 #       name      = "rabbitmq-user-permissions-consumer"
-#       namespace = kubernetes_namespace.rabbitmq_namespace.metadata[0].name
+#       namespace = var.rabbitmq_namespace
 #     }
 #     spec = {
 #       vhost = "/"

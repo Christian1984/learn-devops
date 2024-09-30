@@ -13,7 +13,7 @@ resource "kubernetes_namespace" "app_namespace" {
 
 resource "helm_release" "rabbitmq-cluster-operator" {
   name      = "rabbitmq-cluster-operator"
-  namespace = kubernetes_namespace.rabbitmq_namespace.metadata[0].name
+  namespace = var.rabbitmq_namespace
 
   repository = "https://charts.bitnami.com/bitnami"
   chart      = "rabbitmq-cluster-operator"
@@ -28,7 +28,7 @@ resource "kubernetes_manifest" "rabbitmq_cluster" {
     kind       = "RabbitmqCluster"
     metadata = {
       name      = var.rabbitmq_instance_name
-      namespace = kubernetes_namespace.rabbitmq_namespace.metadata[0].name
+      namespace = var.rabbitmq_namespace
     }
     spec = {
       image    = "rabbitmq:4.0.2-management"

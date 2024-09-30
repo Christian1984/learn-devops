@@ -3,7 +3,7 @@ locals {
     apiVersion = "rabbitmq.com/v1beta1"
     kind       = "User"
     metadata = {
-      namespace = kubernetes_namespace.rabbitmq_namespace.metadata[0].name
+      namespace = var.rabbitmq_namespace
     }
     spec = {
       rabbitmqClusterReference = {

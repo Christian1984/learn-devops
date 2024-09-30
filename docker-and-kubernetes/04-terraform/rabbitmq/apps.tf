@@ -18,7 +18,7 @@ resource "kubernetes_manifest" "mq-demo-sender" {
     kind       = "Deployment"
     metadata = {
       name      = "mq-demo-sender"
-      namespace = kubernetes_namespace.app_namespace.metadata[0].name
+      namespace = var.app_namespace
     }
     spec = {
       replicas = 1
@@ -80,7 +80,7 @@ resource "kubernetes_manifest" "mq-demo-receiver" {
     kind       = "Deployment"
     metadata = {
       name      = "mq-demo-receiver"
-      namespace = kubernetes_namespace.app_namespace.metadata[0].name
+      namespace = var.app_namespace
     }
     spec = {
       replicas = 1

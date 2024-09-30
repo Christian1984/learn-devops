@@ -13,14 +13,14 @@ locals {
 data "kubernetes_secret" "rabbitmq_default_user" {
   metadata {
     name      = "rabbitmq-default-user"
-    namespace = kubernetes_namespace.rabbitmq_namespace.metadata[0].name
+    namespace = var.rabbitmq_namespace
   }
 }
 
 resource "kubernetes_secret" "rabbitmq_secret_user_producer" {
   metadata {
     name      = "rabbitmq-secret-user-producer"
-    namespace = kubernetes_namespace.rabbitmq_namespace.metadata[0].name
+    namespace = var.rabbitmq_namespace
   }
 
   data = local.user_producer_data
@@ -29,7 +29,7 @@ resource "kubernetes_secret" "rabbitmq_secret_user_producer" {
 resource "kubernetes_secret" "rabbitmq_secret_user_consumer" {
   metadata {
     name      = "rabbitmq-secret-user-consumer"
-    namespace = kubernetes_namespace.rabbitmq_namespace.metadata[0].name
+    namespace = var.rabbitmq_namespace
   }
 
   data = local.user_consumer_data
@@ -38,7 +38,7 @@ resource "kubernetes_secret" "rabbitmq_secret_user_consumer" {
 resource "kubernetes_secret" "app_secret_user_producer" {
   metadata {
     name      = "app-secret-user-producer"
-    namespace = kubernetes_namespace.app_namespace.metadata[0].name
+    namespace = var.app_namespace
   }
 
   data = local.user_producer_data
@@ -47,7 +47,7 @@ resource "kubernetes_secret" "app_secret_user_producer" {
 resource "kubernetes_secret" "app_secret_user_consumer" {
   metadata {
     name      = "app-secret-user-consumer"
-    namespace = kubernetes_namespace.app_namespace.metadata[0].name
+    namespace = var.app_namespace
   }
 
   data = local.user_consumer_data
